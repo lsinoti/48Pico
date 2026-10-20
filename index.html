@@ -413,9 +413,21 @@
               }
             }
 
-            if (event.data === YT.PlayerState.ENDED) {
-              mostrarTelaFinal();
-            }
+
+if (event.data === YT.PlayerState.ENDED) {
+  registarEventoGoogle('video_complete', {
+    video_id: 'MgUYUUWWy_M',
+    video_title: '48 Pico'
+  });
+
+  registarEventoGoat(
+    'video_complete',
+    'Vídeo assistido até ao fim - 48 Pico'
+  );
+
+  mostrarTelaFinal();
+}
+
           }
         }
       });
