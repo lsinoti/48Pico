@@ -1,220 +1,128 @@
-
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQWPRX36KQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RQWPRX36KQ');
-</script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>48 Pico</title>
 
+  <!-- Google Analytics: inicia com a medição desativada até consentimento -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied' });
+    gtag('js', new Date());
+    gtag('config', 'G-RQWPRX36KQ');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQWPRX36KQ"></script>
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      font-family: Arial, sans-serif;
-    }
-
-    /* Vídeo */
-    #player {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Mensagem sobre o vídeo */
-    #convite {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 18px 16px 24px;
-      background: rgba(16, 24, 32, 0.94);
-      color: white;
-      text-align: center;
-      z-index: 10;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
-    }
-
-    #convite h2 {
-      margin: 0 0 8px;
-      font-size: 22px;
-    }
-
-    #convite p {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.4;
-    }
-
-    /* Botão WhatsApp */
-    .whatsapp {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 15px 24px;
-      background: #25D366;
-      color: white;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    #convite .whatsapp {
-      margin-top: 12px;
-      padding: 13px 20px;
-      font-size: 16px;
-    }
-
-    /* Tela após o vídeo */
-    #final {
-      display: none;
-      position: fixed;
-      inset: 0;
-      padding: 24px;
-      background: #101820;
-      color: white;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 20;
-    }
-
-    #final h1 {
-      font-size: clamp(28px, 6vw, 46px);
-      margin-bottom: 12px;
-    }
-
-    #final p {
-      font-size: clamp(18px, 4vw, 24px);
-      line-height: 1.5;
-      max-width: 600px;
-    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; font-family: Arial, sans-serif; }
+    #player { position: fixed; inset: 0; width: 100%; height: 100%; }
+    #convite { display: none; position: fixed; bottom: 0; left: 0; width: 100%; padding: 18px 16px 24px; background: rgba(16, 24, 32, 0.94); color: white; text-align: center; z-index: 10; box-shadow: 0 -4px 20px rgba(0,0,0,0.25); }
+    #convite h2 { margin: 0 0 8px; font-size: 22px; }
+    #convite p { margin: 0; font-size: 15px; line-height: 1.4; }
+    .whatsapp { display: inline-block; margin-top: 16px; padding: 15px 24px; background: #25D366; color: white; border-radius: 12px; font-size: 17px; font-weight: bold; text-decoration: none; }
+    #convite .whatsapp { margin-top: 12px; padding: 13px 20px; font-size: 16px; }
+    #final { display: none; position: fixed; inset: 0; padding: 24px; background: #101820; color: white; text-align: center; align-items: center; justify-content: center; flex-direction: column; z-index: 20; }
+    #final h1 { font-size: clamp(28px, 6vw, 46px); margin-bottom: 12px; }
+    #final p { font-size: clamp(18px, 4vw, 24px); line-height: 1.5; max-width: 600px; }
+    #consentimento { position: fixed; left: 12px; right: 12px; bottom: 12px; max-width: 560px; margin: 0 auto; padding: 16px; z-index: 50; background: #fff; color: #222; border-radius: 12px; box-shadow: 0 3px 25px rgba(0,0,0,.5); font-size: 14px; line-height: 1.5; }
+    #consentimento p { margin: 0 0 12px; }
+    #consentimento .acoes { display: flex; gap: 10px; flex-wrap: wrap; }
+    #consentimento button { border: 1px solid #444; border-radius: 8px; padding: 10px 15px; font-size: 14px; cursor: pointer; background: white; color: #222; }
+    #consentimento button:first-child { background: #101820; color: white; }
   </style>
 </head>
-
 <body>
-
-  <!-- Vídeo do YouTube -->
   <div id="player"></div>
 
-  <!-- Mensagem que aparece aos 1:52 -->
   <div id="convite">
     <h2>Pensa em comprar ou vender?</h2>
-
-    <p>
-      Fale comigo agora mesmo e tenha a experiência
-      do melhor atendimento!
-    </p>
-
-    <a
-      class="whatsapp"
-      href="https://wa.me/351915892555?text=Ol%C3%A1%2C%20vi%20o%20seu%20v%C3%ADdeo%20no%2048%20Pico%20e%20gostaria%20de%20falar%20consigo."
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Falar comigo no WhatsApp
-    </a>
+    <p>Fale comigo agora mesmo e tenha a experiência
+      do melhor atendimento!</p>
+    <a class="whatsapp" href="https://wa.me/351915892555?text=Ol%C3%A1%2C%20vi%20o%20seu%20v%C3%ADdeo%20no%2048%20Pico%20e%20gostaria%20de%20falar%20consigo." target="_blank" rel="noopener noreferrer">Falar comigo no WhatsApp</a>
   </div>
 
-  <!-- Tela final -->
   <div id="final">
     <h1>Pensa em comprar ou vender?</h1>
+    <p>Fale comigo agora mesmo e tenha a experiência
+      do melhor atendimento!</p>
+    <a class="whatsapp" href="https://wa.me/351915892555?text=Ol%C3%A1%2C%20vi%20o%20seu%20v%C3%ADdeo%20no%2048%20Pico%20e%20gostaria%20de%20falar%20consigo." target="_blank" rel="noopener noreferrer">Falar comigo no WhatsApp</a>
+  </div>
 
-    <p>
-      Fale comigo agora mesmo e tenha a experiência
-      do melhor atendimento!
-    </p>
-
-    <a
-      class="whatsapp"
-      href="https://wa.me/351915892555?text=Ol%C3%A1%2C%20vi%20o%20seu%20v%C3%ADdeo%20no%2048%20Pico%20e%20gostaria%20de%20falar%20consigo."
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Falar comigo no WhatsApp
-    </a>
+  <div id="consentimento" role="dialog" aria-label="Preferências de análise">
+    <p>Podemos utilizar o Google Analytics para medir visitas, reproduções do vídeo e cliques no WhatsApp? A sua escolha não impede a visualização do vídeo.</p>
+    <div class="acoes"><button id="aceitarAnalise" type="button">Aceitar análise</button><button id="recusarAnalise" type="button">Recusar</button></div>
   </div>
 
   <script>
-    // Carrega a API do YouTube
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);
+    // O consentimento fica guardado apenas neste navegador.
+    var consentimento = document.getElementById('consentimento');
+    var escolha = null;
+    try { escolha = localStorage.getItem('48pico_analytics_consent'); } catch(e) {}
+    function aplicarConsentimento(valor) {
+      gtag('consent', 'update', { analytics_storage: valor === 'granted' ? 'granted' : 'denied' });
+      if (valor === 'granted') {
+        gtag('event', 'page_view', { page_title: document.title, page_location: location.href });
+      }
+      consentimento.style.display = 'none';
+    }
+    if (escolha === 'granted' || escolha === 'denied') aplicarConsentimento(escolha);
+    function guardarConsentimento(valor) {
+      try { localStorage.setItem('48pico_analytics_consent', valor); } catch(e) {}
+      aplicarConsentimento(valor);
+    }
+    document.getElementById('aceitarAnalise').addEventListener('click', function(){ guardarConsentimento('granted'); });
+    document.getElementById('recusarAnalise').addEventListener('click', function(){ guardarConsentimento('denied'); });
 
+    function medirEvento(nome, parametros) {
+      if (typeof gtag === 'function') gtag('event', nome, parametros || {});
+    }
+    document.querySelectorAll('a.whatsapp').forEach(function(link) {
+      link.addEventListener('click', function() {
+        medirEvento('whatsapp_click', { button_location: link.closest('#final') ? 'final' : 'convite' });
+      });
+    });
+
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
     var player;
     var convite = document.getElementById('convite');
     var telaFinal = document.getElementById('final');
-
-    // Momento em que a mensagem aparece:
-    // 1 minuto e 52 segundos = 112 segundos
     var momentoConvite = 112;
+    var inicioMedido = false;
 
     function mostrarTelaFinal() {
       convite.style.display = 'none';
       document.getElementById('player').style.display = 'none';
       telaFinal.style.display = 'flex';
     }
-
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         videoId: 'MgUYUUWWy_M',
-
-        playerVars: {
-          autoplay: 1,
-          playsinline: 1,
-          rel: 0,
-          cc_load_policy: 0,
-          enablejsapi: 1
-        },
-
+        playerVars: { autoplay: 1, playsinline: 1, rel: 0, cc_load_policy: 0, enablejsapi: 1 },
         events: {
           onReady: function(event) {
-
-            // Verifica o tempo do vídeo
-            // quatro vezes por segundo
             setInterval(function() {
-              if (
-                player.getPlayerState() ===
-                YT.PlayerState.PLAYING
-              ) {
+              if (player.getPlayerState() === YT.PlayerState.PLAYING) {
                 var tempoAtual = player.getCurrentTime();
-
-                if (tempoAtual >= momentoConvite) {
-                  convite.style.display = 'block';
-                } else {
-                  convite.style.display = 'none';
-                }
+                if (tempoAtual >= momentoConvite) convite.style.display = 'block';
+                else convite.style.display = 'none';
               }
             }, 250);
           },
-
           onStateChange: function(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-              mostrarTelaFinal();
+            if (event.data === YT.PlayerState.PLAYING && !inicioMedido) {
+              inicioMedido = true;
+              medirEvento('video_start', { video_title: '48 Pico', video_id: 'MgUYUUWWy_M' });
             }
+            if (event.data === YT.PlayerState.ENDED) mostrarTelaFinal();
           }
         }
       });
     }
   </script>
-
 </body>
 </html>
