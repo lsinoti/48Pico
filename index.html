@@ -9,7 +9,9 @@
   <!-- Google Analytics: consentimento negado por defeito -->
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
     gtag('consent', 'default', {
       analytics_storage: 'denied',
@@ -21,7 +23,17 @@
     gtag('js', new Date());
     gtag('config', 'G-RQWPRX36KQ');
   </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQWPRX36KQ"></script>
+
+  <script async
+    src="https://www.googletagmanager.com/gtag/js?id=G-RQWPRX36KQ">
+  </script>
+
+  <!-- GoatCounter: contagem sem cookies -->
+  <script
+    data-goatcounter="https://sinoti.goatcounter.com/count"
+    async
+    src="https://gc.zgo.at/count.js">
+  </script>
 
   <style>
     * {
@@ -44,7 +56,7 @@
       height: 100%;
     }
 
-    /* Mensagem sobre o vídeo */
+    /* Convite aos 1:52 */
     #convite {
       display: none;
       position: fixed;
@@ -70,7 +82,7 @@
       line-height: 1.4;
     }
 
-    /* Botão WhatsApp */
+    /* Botões WhatsApp */
     .whatsapp {
       display: inline-block;
       margin-top: 16px;
@@ -89,7 +101,7 @@
       font-size: 16px;
     }
 
-    /* Tela após o vídeo */
+    /* Ecrã final */
     #final {
       display: none;
       position: fixed;
@@ -115,7 +127,7 @@
       max-width: 600px;
     }
 
-    /* Aviso de privacidade pequeno e discreto */
+    /* Aviso de cookies discreto */
     #avisoPrivacidade {
       display: none;
       position: fixed;
@@ -161,7 +173,7 @@
       font-weight: bold;
     }
 
-    /* Evita que o aviso tape o convite */
+    /* Não tapar o convite do vídeo */
     body:has(#convite[style*="block"]) #avisoPrivacidade {
       bottom: auto;
       top: 8px;
@@ -171,55 +183,56 @@
 
 <body>
 
-  <!-- Vídeo do YouTube -->
+  <!-- Vídeo YouTube -->
   <div id="player"></div>
 
-  <!-- Mensagem que aparece aos 1:52 -->
+  <!-- Convite aos 1:52 -->
   <div id="convite">
     <h2>Pensa em comprar ou vender?</h2>
     <p>
       Fale comigo agora mesmo e tenha a experiência
       do melhor atendimento!
     </p>
+
     <a
       class="whatsapp"
       href="https://wa.me/351915892555?text=Ol%C3%A1%2C%20vi%20o%20seu%20v%C3%ADdeo%20no%2048%20Pico%20e%20gostaria%20de%20falar%20consigo."
       target="_blank"
-      rel="noopener noreferrer"
-    >
+      rel="noopener noreferrer">
       Falar comigo no WhatsApp
     </a>
   </div>
 
-  <!-- Tela final -->
+  <!-- Ecrã final -->
   <div id="final">
     <h1>Pensa em comprar ou vender?</h1>
     <p>
       Fale comigo agora mesmo e tenha a experiência
       do melhor atendimento!
     </p>
+
     <a
       class="whatsapp"
       href="https://wa.me/351915892555?text=Ol%C3%A1%2C%20vi%20o%20seu%20v%C3%ADdeo%20no%2048%20Pico%20e%20gostaria%20de%20falar%20consigo."
       target="_blank"
-      rel="noopener noreferrer"
-    >
+      rel="noopener noreferrer">
       Falar comigo no WhatsApp
     </a>
   </div>
 
-  <!-- Aviso discreto de consentimento -->
+  <!-- Aviso de cookies -->
   <div id="avisoPrivacidade">
     <p>
-      Podemos recolher estatísticas anónimas de visitas,
-      reproduções e cliques no WhatsApp?
-      <a href="https://policies.google.com/privacy"
-         target="_blank"
-         rel="noopener noreferrer"
-         style="color:#fff;text-decoration:underline;">
+      Este site utiliza cookies para estatísticas.
+      <a
+        href="https://policies.google.com/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="color:#fff;text-decoration:underline;">
         Privacidade
       </a>
     </p>
+
     <div class="botoesPrivacidade">
       <button id="recusarAnalise" type="button">
         Recusar
@@ -231,6 +244,7 @@
   </div>
 
   <script>
+    /* Consentimento Google Analytics */
     var consentimento = null;
 
     try {
@@ -292,23 +306,44 @@
       avisoPrivacidade.style.display = 'block';
     }
 
-    /* Eventos do Google Analytics */
-    function registarEvento(nome, parametros) {
+    /* Google Analytics: apenas com consentimento */
+    function registarEventoGoogle(nome, parametros) {
       if (consentimento === 'aceite') {
         gtag('event', nome, parametros || {});
       }
     }
 
-    /* Cliques em qualquer botão do WhatsApp */
+    /* GoatCounter: eventos sem cookies */
+    function registarEventoGoat(caminho, titulo) {
+      if (
+        window.goatcounter &&
+        typeof window.goatcounter.count === 'function'
+      ) {
+        window.goatcounter.count({
+          path: caminho,
+          title: titulo,
+          event: true
+        });
+      }
+    }
+
+    /* Cliques nos botões WhatsApp */
     document.querySelectorAll('.whatsapp').forEach(
       function(botao) {
         botao.addEventListener('click', function() {
-          registarEvento('whatsapp_click', {
-            local_botao:
-              botao.closest('#final')
-                ? 'tela_final'
-                : 'convite_video'
+          var localBotao =
+            botao.closest('#final')
+              ? 'tela_final'
+              : 'convite_video';
+
+          registarEventoGoogle('whatsapp_click', {
+            local_botao: localBotao
           });
+
+          registarEventoGoat(
+            'whatsapp_click_' + localBotao,
+            'Clique WhatsApp - ' + localBotao
+          );
         });
       }
     );
@@ -322,7 +357,6 @@
     var convite = document.getElementById('convite');
     var telaFinal = document.getElementById('final');
     var momentoConvite = 112;
-
     var videoEstavaAReproduzir = false;
 
     function mostrarTelaFinal() {
@@ -345,7 +379,6 @@
 
         events: {
           onReady: function(event) {
-
             setInterval(function() {
               if (
                 player.getPlayerState() ===
@@ -363,13 +396,18 @@
           },
 
           onStateChange: function(event) {
-
             if (event.data === YT.PlayerState.PLAYING) {
               if (!videoEstavaAReproduzir) {
-                registarEvento('video_start', {
+                registarEventoGoogle('video_start', {
                   video_id: 'MgUYUUWWy_M',
                   video_title: '48 Pico'
                 });
+
+                registarEventoGoat(
+                  'video_start',
+                  'Início do vídeo - 48 Pico'
+                );
+
                 videoEstavaAReproduzir = true;
               }
             }
